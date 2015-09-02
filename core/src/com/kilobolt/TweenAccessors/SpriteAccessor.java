@@ -1,10 +1,10 @@
 package com.kilobolt.TweenAccessors;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-
 import aurelienribon.tweenengine.TweenAccessor;
 
-public class SpriteAccessor implements TweenAccessor<Sprite>{
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
+public class SpriteAccessor implements TweenAccessor<Sprite> {
 
     public static final int ALPHA = 1;
 
@@ -27,4 +27,5 @@ public class SpriteAccessor implements TweenAccessor<Sprite>{
                 break;
         }
     }
+
 }

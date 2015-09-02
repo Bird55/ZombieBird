@@ -1,11 +1,11 @@
 package com.kilobolt.gameobjects;
 
+import java.util.Random;
+
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.Random;
-
-public class Pipe extends Scrollable{
+public class Pipe extends Scrollable {
 
     private Random r;
 
@@ -15,12 +15,15 @@ public class Pipe extends Scrollable{
     public static final int SKULL_WIDTH = 24;
     public static final int SKULL_HEIGHT = 11;
     private float groundY;
-    private boolean isScored;
 
-    // Когда констуктор Pipe вызван – вызовите конструтор родителя (Scrollable)
-    public Pipe(float x, float y, int width, int height, float scrollSpeed, float groundY) {
+    private boolean isScored = false;
+
+    // When Pipe's constructor is invoked, invoke the super (Scrollable)
+    // constructor
+    public Pipe(float x, float y, int width, int height, float scrollSpeed,
+                float groundY) {
         super(x, y, width, height, scrollSpeed);
-        // Иницилизируйте объект типа Random для генерации случайных чисел
+        // Initialize a Random object for Random number generation
         r = new Random();
         skullUp = new Rectangle();
         skullDown = new Rectangle();
@@ -32,32 +35,34 @@ public class Pipe extends Scrollable{
 
     @Override
     public void update(float delta) {
-        // вызываем update метод в родительском классе (Scrollable)
+        // Call the update method in the superclass (Scrollable)
         super.update(delta);
 
+        // The set() method allows you to set the top left corner's x, y
+        // coordinates,
+        // along with the width and height of the rectangle
 
-        // Метод set() позволяет выставить координаты верзнего лего угла - x, y
-        // вместе с width и height прямоугольника
         barUp.set(position.x, position.y, width, height);
         barDown.set(position.x, position.y + height + VERTICAL_GAP, width,
                 groundY - (position.y + height + VERTICAL_GAP));
 
-        // Ширина черепа 24 пикселя. Ширина трубы всего 22 пикселя. Так что череп
-        // должен быть смещен на 1 пиксель влево (так что череп будет отцентрирован
-        // относительно трубы).
+        // Our skull width is 24. The bar is only 22 pixels wide. So the skull
+        // must be shifted by 1 pixel to the left (so that the skull is centered
+        // with respect to its bar).
 
-        // Смещение равнозначно: (SKULL_WIDTH - width) / 2
-        skullUp.set(position.x - (SKULL_WIDTH - width) / 2, position.y + height - SKULL_HEIGHT,
-                SKULL_WIDTH, SKULL_HEIGHT);
+        // This shift is equivalent to: (SKULL_WIDTH - width) / 2
+        skullUp.set(position.x - (SKULL_WIDTH - width) / 2, position.y + height
+                        - SKULL_HEIGHT, SKULL_WIDTH, SKULL_HEIGHT);
         skullDown.set(position.x - (SKULL_WIDTH - width) / 2, barDown.y,
                 SKULL_WIDTH, SKULL_HEIGHT);
+
     }
 
     @Override
     public void reset(float newX) {
-        // вызовите reset метод в родительском классе (Scrollable)
+        // Call the reset method in the superclass (Scrollable)
         super.reset(newX);
-        // Измените высоту на случайное значение
+        // Change the height to a random number
         height = r.nextInt(90) + 15;
         isScored = false;
     }
@@ -87,8 +92,8 @@ public class Pipe extends Scrollable{
         if (position.x < bird.getX() + bird.getWidth()) {
             return (Intersector.overlaps(bird.getBoundingCircle(), barUp)
                     || Intersector.overlaps(bird.getBoundingCircle(), barDown)
-                    || Intersector.overlaps(bird.getBoundingCircle(), skullUp)
-                    || Intersector.overlaps(bird.getBoundingCircle(), skullDown));
+                    || Intersector.overlaps(bird.getBoundingCircle(), skullUp) || Intersector
+                            .overlaps(bird.getBoundingCircle(), skullDown));
         }
         return false;
     }
@@ -97,7 +102,7 @@ public class Pipe extends Scrollable{
         return isScored;
     }
 
-    public void setScored(boolean isScored) {
-        this.isScored = isScored;
+    public void setScored(boolean b) {
+        isScored = b;
     }
 }

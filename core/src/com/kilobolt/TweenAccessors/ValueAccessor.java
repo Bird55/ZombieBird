@@ -3,6 +3,7 @@ package com.kilobolt.TweenAccessors;
 import aurelienribon.tweenengine.TweenAccessor;
 
 public class ValueAccessor implements TweenAccessor<Value> {
+
     @Override
     public int getValues(Value target, int tweenType, float[] returnValues) {
         returnValues[0] = target.getValue();
@@ -13,4 +14,5 @@ public class ValueAccessor implements TweenAccessor<Value> {
     public void setValues(Value target, int tweenType, float[] newValues) {
         target.setValue(newValues[0]);
     }
+
 }

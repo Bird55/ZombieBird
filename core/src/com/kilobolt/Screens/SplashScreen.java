@@ -1,5 +1,11 @@
 package com.kilobolt.Screens;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,13 +15,7 @@ import com.kilobolt.TweenAccessors.SpriteAccessor;
 import com.kilobolt.zbHelpers.AssetLoader;
 import com.kilobolt.zombiebird.ZBGame;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenEquations;
-import aurelienribon.tweenengine.TweenManager;
-
-public class SplashScreen implements Screen{
+public class SplashScreen implements Screen {
 
     private TweenManager manager;
     private SpriteBatch batcher;
@@ -33,11 +33,12 @@ public class SplashScreen implements Screen{
 
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
-        float desireWidth = width * 0.7f;
-        float scale = desireWidth / sprite.getWidth();
+        float desiredWidth = width * .7f;
+        float scale = desiredWidth / sprite.getWidth();
 
-        sprite.setSize(sprite.getWidth()*scale, sprite.getHeight()*scale);
-        sprite.setPosition((width/2)-(sprite.getWidth()/2), (height/2)-(sprite.getHeight()/2));
+        sprite.setSize(sprite.getWidth() * scale, sprite.getHeight() * scale);
+        sprite.setPosition((width / 2) - (sprite.getWidth() / 2), (height / 2)
+                - (sprite.getHeight() / 2));
         setupTween();
         batcher = new SpriteBatch();
     }
@@ -54,7 +55,7 @@ public class SplashScreen implements Screen{
         };
 
         Tween.to(sprite, SpriteAccessor.ALPHA, .8f).target(1)
-                .ease(TweenEquations.easeInOutQuart).repeatYoyo(1, .4f)
+                .ease(TweenEquations.easeInOutQuad).repeatYoyo(1, .4f)
                 .setCallback(cb).setCallbackTriggers(TweenCallback.COMPLETE)
                 .start(manager);
     }
@@ -62,7 +63,7 @@ public class SplashScreen implements Screen{
     @Override
     public void render(float delta) {
         manager.update(delta);
-        Gdx.gl.glClearColor(1, 1, 1, 14);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batcher.begin();
         sprite.draw(batcher);
@@ -75,22 +76,27 @@ public class SplashScreen implements Screen{
     }
 
     @Override
+    public void hide() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
     public void pause() {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void dispose() {
+        // TODO Auto-generated method stub
 
     }
+
 }

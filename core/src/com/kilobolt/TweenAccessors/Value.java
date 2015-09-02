@@ -8,7 +8,8 @@ public class Value {
         return val;
     }
 
-    public void setValue(float val) {
-        this.val = val;
+    public void setValue(float newVal) {
+        val = newVal;
     }
+
 }
