@@ -11,24 +11,31 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-    public static Texture texture;
-    public static TextureRegion bg, grass;
-
+    public static Texture texture, logoTexture;
+    public static TextureRegion logo, zbLogo, bg, grass, bird, birdDown,
+            birdUp, skullUp, skullDown, bar, playButtonUp, playButtonDown;
     public static Animation birdAnimation;
-    public static TextureRegion bird, birdDown, birdUp;
-
-    public static TextureRegion skullUp, skullDown, bar;
-
     public static Sound dead, flap, coin;
-
     public static BitmapFont font, shadow;
-
     public static Preferences prefs;
 
     public static void load() {
 
+        logoTexture = new Texture(Gdx.files.internal("data/logo.png"));
+        logoTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        logo = new TextureRegion(logoTexture, 0, 0, 512, 114);
+
         texture = new Texture(Gdx.files.internal("data/texture.png"));
         texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        playButtonUp = new TextureRegion(texture, 0, 83, 29, 16);
+        playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
+        playButtonUp.flip(false, true);
+        playButtonDown.flip(false, true);
+
+        zbLogo = new TextureRegion(texture, 0, 55, 135, 24);
+        zbLogo.flip(false, true);
 
         bg = new TextureRegion(texture, 0, 0, 136, 43);
         bg.flip(false, true);
@@ -84,7 +91,7 @@ public class AssetLoader {
     }
 
     public static void dispose() {
-        // Мы должны избавляться от текстур, когда заканчивает работать с объектом в котором есть текстуры
+        logoTexture.dispose();
         texture.dispose();
         dead.dispose();
         flap.dispose();

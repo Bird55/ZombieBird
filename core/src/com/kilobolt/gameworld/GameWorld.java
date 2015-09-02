@@ -12,42 +12,48 @@ public class GameWorld {
     private ScrollHandler scroller;
     private Rectangle ground;
     private int score = 0;
-
+    private float runTime = 0;
     private int midPointY;
 
     private GameState currentState;
 
-    public enum GameState {READY, RUNNING, GAMEOVER, HIGHSCORE}
+    public enum GameState {
+        MENU, READY, RUNNING, GAMEOVER, HIGHSCORE
+    }
 
     public GameWorld(int midPointY) {
-        currentState = GameState.READY;
+        currentState = GameState.MENU;
         this.midPointY = midPointY;
         bird = new Bird(33, midPointY - 5, 17, 12);
-        // Трава должна начинаться на 66 пиксилей ниже чем знаение midPointY
+        // The grass should start 66 pixels below the midPointY
         scroller = new ScrollHandler(this, midPointY + 66);
-        ground = new Rectangle(0, midPointY + 66, 136, 11);
+        ground = new Rectangle(0, midPointY + 66, 137, 11);
     }
 
     public void update(float delta) {
+        runTime += delta;
+
         switch (currentState) {
             case READY:
-                updateReady();
+            case MENU:
+                updateReady(delta);
                 break;
+
             case RUNNING:
                 updateRunning(delta);
                 break;
             default:
                 break;
         }
+
     }
 
-    private void updateReady() {
-        // Пока ничего не делаем
+    private void updateReady(float delta) {
+        bird.updateReady(runTime);
+        scroller.updateReady(delta);
     }
 
     public void updateRunning(float delta) {
-        // Добавим лимит для нашей delta, так что если игра начнет тормозить
-        // при обновлении, мы не нарушим нашу логику определения колизии
         if (delta > .15f) {
             delta = .15f;
         }
@@ -76,6 +82,11 @@ public class GameWorld {
 
     public Bird getBird() {
         return bird;
+
+    }
+
+    public int getMidPointY() {
+        return midPointY;
     }
 
     public ScrollHandler getScroller() {
@@ -90,12 +101,12 @@ public class GameWorld {
         score += increment;
     }
 
-    public boolean isReady() {
-        return currentState == GameState.READY;
-    }
-
     public void start() {
         currentState = GameState.RUNNING;
+    }
+
+    public void ready() {
+        currentState = GameState.READY;
     }
 
     public void restart() {
@@ -106,6 +117,10 @@ public class GameWorld {
         currentState = GameState.READY;
     }
 
+    public boolean isReady() {
+        return currentState == GameState.READY;
+    }
+
     public boolean isGameOver() {
         return currentState == GameState.GAMEOVER;
     }
@@ -113,4 +128,13 @@ public class GameWorld {
     public boolean isHighScore() {
         return currentState == GameState.HIGHSCORE;
     }
+
+    public boolean isMenu() {
+        return currentState == GameState.MENU;
+    }
+
+    public boolean isRunning() {
+        return currentState == GameState.RUNNING;
+    }
+
 }
