@@ -15,6 +15,7 @@ public class Pipe extends Scrollable{
     public static final int SKULL_WIDTH = 24;
     public static final int SKULL_HEIGHT = 11;
     private float groundY;
+    private boolean isScored;
 
     // Когда констуктор Pipe вызван – вызовите конструтор родителя (Scrollable)
     public Pipe(float x, float y, int width, int height, float scrollSpeed, float groundY) {
@@ -58,6 +59,7 @@ public class Pipe extends Scrollable{
         super.reset(newX);
         // Измените высоту на случайное значение
         height = r.nextInt(90) + 15;
+        isScored = false;
     }
 
     public boolean collides(Bird bird) {
@@ -84,5 +86,13 @@ public class Pipe extends Scrollable{
 
     public Rectangle getBarDown() {
         return barDown;
+    }
+
+    public boolean isScored() {
+        return isScored;
+    }
+
+    public void setScored(boolean isScored) {
+        this.isScored = isScored;
     }
 }

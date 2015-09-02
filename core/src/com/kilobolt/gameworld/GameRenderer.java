@@ -134,7 +134,7 @@ public class GameRenderer {
         // Стартуем ShapeRenderer
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        // Отрисовываем задний фон
+        // Отрисуем цвет заднего фона
         shapeRenderer.setColor(55 / 255.0f, 80 / 255.0f, 100 / 255.0f, 1);
         shapeRenderer.rect(0, 0, 136, midPointY + 66);
 
@@ -178,50 +178,17 @@ public class GameRenderer {
                     bird.getWidth() / 2.0f, bird.getHeight() / 2.0f,
                     bird.getWidth(), bird.getHeight(), 1, 1, bird.getRotation());
         }
+
+        // Переводим integer в String
+        String score = myWorld.getScore() + "";
+
+        // Сначала отрисовываем тень
+        AssetLoader.shadow.draw(batcher, score, (136/2)-(3*score.length()), 12);
+
+        // Отрисуем сам текст
+        AssetLoader.font.draw(batcher, score, (136/2)-(3*score.length()-1), 11);
+
         // Заканчиваем SpriteBatch
         batcher.end();
-//
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(Color.RED);
-//        shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
-//
-//
-//        /*
-//         * Извините за беспорядок ниже. Временный код для теста границ
-//         * прямоугольников.
-//         */
-//        // Верхний блок для труб 1, 2 и 3
-//        shapeRenderer.rect(pipe1.getBarUp().x, pipe1.getBarUp().y,
-//                pipe1.getBarUp().width, pipe1.getBarUp().height);
-//        shapeRenderer.rect(pipe2.getBarUp().x, pipe2.getBarUp().y,
-//                pipe2.getBarUp().width, pipe2.getBarUp().height);
-//        shapeRenderer.rect(pipe3.getBarUp().x, pipe3.getBarUp().y,
-//                pipe3.getBarUp().width, pipe3.getBarUp().height);
-//
-//        // Нижний блок для труб 1, 2 и 3
-//        shapeRenderer.rect(pipe1.getBarDown().x, pipe1.getBarDown().y,
-//                pipe1.getBarDown().width, pipe1.getBarDown().height);
-//        shapeRenderer.rect(pipe2.getBarDown().x, pipe2.getBarDown().y,
-//                pipe2.getBarDown().width, pipe2.getBarDown().height);
-//        shapeRenderer.rect(pipe3.getBarDown().x, pipe3.getBarDown().y,
-//                pipe3.getBarDown().width, pipe3.getBarDown().height);
-//
-//        // Черепа для верхних труб 1, 2 и 3
-//        shapeRenderer.rect(pipe1.getSkullUp().x, pipe1.getSkullUp().y,
-//                pipe1.getSkullUp().width, pipe1.getSkullUp().height);
-//        shapeRenderer.rect(pipe2.getSkullUp().x, pipe2.getSkullUp().y,
-//                pipe2.getSkullUp().width, pipe2.getSkullUp().height);
-//        shapeRenderer.rect(pipe3.getSkullUp().x, pipe3.getSkullUp().y,
-//                pipe3.getSkullUp().width, pipe3.getSkullUp().height);
-//
-//        // Черепа для нижних труб 1, 2 and 3
-//        shapeRenderer.rect(pipe1.getSkullDown().x, pipe1.getSkullDown().y,
-//                pipe1.getSkullDown().width, pipe1.getSkullDown().height);
-//        shapeRenderer.rect(pipe2.getSkullDown().x, pipe2.getSkullDown().y,
-//                pipe2.getSkullDown().width, pipe2.getSkullDown().height);
-//        shapeRenderer.rect(pipe3.getSkullDown().x, pipe3.getSkullDown().y,
-//                pipe3.getSkullDown().width, pipe3.getSkullDown().height);
-//
-//        shapeRenderer.end();
     }
 }

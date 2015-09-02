@@ -2,6 +2,7 @@ package com.kilobolt.gameobjects;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import com.kilobolt.zbHelpers.AssetLoader;
 
 public class Bird {
 
@@ -15,6 +16,8 @@ public class Bird {
 
     private Circle boundingCircle;
 
+    private boolean isAlive;
+
     public Bird(float x, float y, int width, int height) {
         this.width = width;
         this.height = height;
@@ -22,6 +25,7 @@ public class Bird {
         velocity = new Vector2(0, 0);
         acceleration = new Vector2(0, 460);
         boundingCircle = new Circle();
+        isAlive = true;
     }
 
     public void update(float delta) {
@@ -34,6 +38,8 @@ public class Bird {
 
         position.add(velocity.cpy().scl(delta));
 
+        // Установим центр круга в координату (9, 6) в отношении к птице
+        // Установим радиус круга равным 6.5f;
         boundingCircle.set(position.x + 9, position.y + 6, 6.5f);
 
         // Повернуть против часовой стрелки
@@ -58,11 +64,23 @@ public class Bird {
     }
 
     public boolean shouldntFlap() {
-        return velocity.y > 70;
+        return velocity.y > 70 || !isAlive;
     }
 
     public void onClick() {
-        velocity.y = -140;
+        if (isAlive) {
+            AssetLoader.flap.play();
+            velocity.y = -140;
+        }
+    }
+
+    public void die() {
+        isAlive = false;
+        velocity.y = 0;
+    }
+
+    public void decelerate() {
+        acceleration.y = 0;
     }
 
     public float getX() {
@@ -87,5 +105,9 @@ public class Bird {
 
     public Circle getBoundingCircle() {
         return boundingCircle;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 }

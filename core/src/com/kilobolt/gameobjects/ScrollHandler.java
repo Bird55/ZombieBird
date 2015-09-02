@@ -1,5 +1,8 @@
 package com.kilobolt.gameobjects;
 
+import com.kilobolt.gameworld.GameWorld;
+import com.kilobolt.zbHelpers.AssetLoader;
+
 public class ScrollHandler {
 
     // ScrollHandler создаст все необходимые нам объекты
@@ -12,9 +15,12 @@ public class ScrollHandler {
     public static final int SCROLL_SPEED = -59;
     public static final int PIPE_GAP = 49;
 
+    private GameWorld gameWorld;
+
     // конструктор получает значение по Y оси, где нам необходимо создать наши
     // Grass и Pipe объекты.
-    public ScrollHandler(float yPos) {
+    public ScrollHandler(GameWorld gameWorld, float yPos) {
+        this.gameWorld = gameWorld;
         frontGrass = new Grass(0, yPos, 143, 11, SCROLL_SPEED);
         backGrass = new Grass(frontGrass.getTailX(), yPos, 143, 11, SCROLL_SPEED);
 
@@ -32,8 +38,8 @@ public class ScrollHandler {
         pipe2.update(delta);
         pipe3.update(delta);
 
-        // проверяем кто из объектов за левой границей
-        // и соответственно сбрасываем параметры этого объекта
+        // Проверим если какая, то из труб оказалась за левой границей экрана
+        // и сбросим ее положение
         if (pipe1.isScrolledLeft()) {
             pipe1.reset(pipe3.getTailX() + PIPE_GAP);
         } else if (pipe2.isScrolledLeft()) {
@@ -42,12 +48,41 @@ public class ScrollHandler {
             pipe3.reset(pipe2.getTailX() + PIPE_GAP);
         }
 
-        // то-же самое с травой
+        // Аналогично  с травой
         if (frontGrass.isScrolledLeft()) {
             frontGrass.reset(backGrass.getTailX());
         } else if (backGrass.isScrolledLeft()) {
             backGrass.reset(frontGrass.getTailX());
         }
+    }
+
+    public void stop() {
+        frontGrass.stop();
+        backGrass.stop();
+        pipe1.stop();
+        pipe2.stop();
+        pipe3.stop();
+    }
+
+    public boolean collides(Bird bird) {
+        if (!pipe1.isScored() && pipe1.getX() + (pipe1.getWidth() / 2) < bird.getX() + bird.getWidth()) {
+            addScore(1);
+            pipe1.setScored(true);
+            AssetLoader.coin.play();
+        } else if (!pipe2.isScored() && pipe2.getX() + (pipe2.getWidth() / 2) < bird.getX() + bird.getWidth()) {
+            addScore(1);
+            pipe2.setScored(true);
+            AssetLoader.coin.play();
+        } else if (!pipe3.isScored() && pipe3.getX() + (pipe3.getWidth() / 2) < bird.getX() + bird.getWidth()) {
+            addScore(1);
+            pipe3.setScored(true);
+            AssetLoader.coin.play();
+        }
+        return pipe1.collides(bird) || pipe2.collides(bird) || pipe3.collides(bird);
+    }
+
+    private void addScore(int increment) {
+        gameWorld.addScore(increment);
     }
 
     // методы доступа к переменным класса
@@ -69,17 +104,5 @@ public class ScrollHandler {
 
     public Pipe getPipe3() {
         return pipe3;
-    }
-
-    public void stop() {
-        frontGrass.stop();
-        backGrass.stop();
-        pipe1.stop();
-        pipe2.stop();
-        pipe3.stop();
-    }
-
-    public boolean collides(Bird bird) {
-        return pipe1.collides(bird) || pipe2.collides(bird) || pipe3.collides(bird);
     }
 }
