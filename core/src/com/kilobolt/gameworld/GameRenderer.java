@@ -78,7 +78,6 @@ public class GameRenderer {
     }
 
     private void drawGrass() {
-        // Отрисовываем траву
         batcher.draw(grass, frontGrass.getX(), frontGrass.getY(),
                 frontGrass.getWidth(), frontGrass.getHeight());
         batcher.draw(grass, backGrass.getX(), backGrass.getY(),
@@ -86,9 +85,6 @@ public class GameRenderer {
     }
 
     private void drawSkulls() {
-        // Временный код, извините за кашу :)
-        // Мы это починим, как только закончим с Pipe классом.
-
         batcher.draw(skullUp, pipe1.getX() - 1,
                 pipe1.getY() + pipe1.getHeight() - 14, 24, 14);
         batcher.draw(skullDown, pipe1.getX() - 1,
@@ -106,9 +102,6 @@ public class GameRenderer {
     }
 
     private void drawPipes() {
-        // Временный код, извините за кашу :)
-        // Мы это починим, как только закончим с Pipe классом.
-
         batcher.draw(bar, pipe1.getX(), pipe1.getY(), pipe1.getWidth(),
                 pipe1.getHeight());
         batcher.draw(bar, pipe1.getX(), pipe1.getY() + pipe1.getHeight() + 45,
@@ -179,14 +172,49 @@ public class GameRenderer {
                     bird.getWidth(), bird.getHeight(), 1, 1, bird.getRotation());
         }
 
-        // Переводим integer в String
-        String score = myWorld.getScore() + "";
 
-        // Сначала отрисовываем тень
-        AssetLoader.shadow.draw(batcher, score, (136/2)-(3*score.length()), 12);
+        // ВРЕМЕННЫЙ КОД! Изменим позже:
 
-        // Отрисуем сам текст
-        AssetLoader.font.draw(batcher, score, (136/2)-(3*score.length()-1), 11);
+        if (myWorld.isReady()) {
+            AssetLoader.shadow.draw(batcher, "Touch me", (136/2)-(42), 76);
+            AssetLoader.font.draw(batcher, "Touch me", (136/2) - (42-1), 75);
+        } else {
+            if (myWorld.isGameOver() || myWorld.isHighScore()) {
+                if (myWorld.isGameOver()) {
+                    AssetLoader.shadow.draw(batcher, "Game over", 25, 56);
+                    AssetLoader.font.draw(batcher, "Game over", 24, 55);
+
+                    AssetLoader.shadow.draw(batcher, "High score:", 23, 106);
+                    AssetLoader.font.draw(batcher, "High score:", 22, 105);
+
+                    String highScore = AssetLoader.getHighScore() + "";
+
+                    AssetLoader.shadow.draw(batcher, highScore, (136/2)-(3*highScore.length()), 128);
+                    AssetLoader.font.draw(batcher, highScore, (136/2)-(3*highScore.length()-1), 127);
+                } else {
+                    AssetLoader.shadow.draw(batcher, "High Score!", 19, 56);
+                    AssetLoader.font.draw(batcher, "High Score!", 18, 55);
+                }
+
+                AssetLoader.shadow.draw(batcher, "Try again?", 23, 76);
+                AssetLoader.font.draw(batcher, "Try again?", 24, 75);
+
+                // Конвертируем integer в String
+                String score = myWorld.getScore() + "";
+
+                AssetLoader.shadow.draw(batcher, score, (136/2)-(3*score.length()), 12);
+                AssetLoader.font.draw(batcher, score, (136/2)-(3*score.length()-1), 11);
+            }
+
+            // Переводим integer в String
+            String score = myWorld.getScore() + "";
+
+            // Сначала отрисовываем тень
+            AssetLoader.shadow.draw(batcher, score, (136/2)-(3*score.length()), 12);
+
+            // Отрисуем сам текст
+            AssetLoader.font.draw(batcher, score, (136/2)-(3*score.length()-1), 11);
+        }
 
         // Заканчиваем SpriteBatch
         batcher.end();

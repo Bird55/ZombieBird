@@ -36,6 +36,12 @@ public class Bird {
             velocity.y = 200;
         }
 
+        // проверяем потолок
+        if (position.y < -13) {
+            position.y = -13;
+            velocity.y = 0;
+        }
+
         position.add(velocity.cpy().scl(delta));
 
         // Установим центр круга в координату (9, 6) в отношении к птице
@@ -51,7 +57,7 @@ public class Bird {
         }
 
         // Повернуть по часовой стрелке
-        if (isFalling()) {
+        if (isFalling() || !isAlive) {
             rotation += 480 * delta;
             if (rotation > 90) {
                 rotation = 90;
@@ -81,6 +87,16 @@ public class Bird {
 
     public void decelerate() {
         acceleration.y = 0;
+    }
+
+    public void onRestart(int y) {
+        rotation = 0;
+        position.y = y;
+        velocity.x = 0;
+        velocity.y = 0;
+        acceleration.x = 0;
+        acceleration.y = 460;
+        isAlive = true;
     }
 
     public float getX() {

@@ -62,14 +62,9 @@ public class Pipe extends Scrollable{
         isScored = false;
     }
 
-    public boolean collides(Bird bird) {
-        if (position.x < bird.getX() + bird.getWidth()) {
-            return (Intersector.overlaps(bird.getBoundingCircle(), barUp)
-                    || Intersector.overlaps(bird.getBoundingCircle(), barDown)
-                    || Intersector.overlaps(bird.getBoundingCircle(), skullUp)
-                    || Intersector.overlaps(bird.getBoundingCircle(), skullDown));
-        }
-        return false;
+    public void onRestart(float x, float scrollSpeed) {
+        velocity.x = scrollSpeed;
+        reset(x);
     }
 
     public Rectangle getSkullUp() {
@@ -86,6 +81,16 @@ public class Pipe extends Scrollable{
 
     public Rectangle getBarDown() {
         return barDown;
+    }
+
+    public boolean collides(Bird bird) {
+        if (position.x < bird.getX() + bird.getWidth()) {
+            return (Intersector.overlaps(bird.getBoundingCircle(), barUp)
+                    || Intersector.overlaps(bird.getBoundingCircle(), barDown)
+                    || Intersector.overlaps(bird.getBoundingCircle(), skullUp)
+                    || Intersector.overlaps(bird.getBoundingCircle(), skullDown));
+        }
+        return false;
     }
 
     public boolean isScored() {
